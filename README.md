@@ -1,143 +1,152 @@
-# Kepler-90 Outer Planets: Orbital Stability and Machine Learning Classification
+# ML-Based Exoplanet Atmosphere Inference
 
-This project investigates the long-term orbital stability of the outer planets in the Kepler-90 system (g, h, i) using N-body simulations. It also leverages machine learning to classify stable vs. unstable planetary configurations, merging computational astrophysics with data-driven techniques.
-
-## Project Timeline and Structure
-
-### Phase 1: Preliminary Research and Setup (Week 1)
-
-**Background Research**
-- Study the Kepler-90 planetary system, focusing on outer planets (g, h, i).
-- Review fundamentals of N-body simulations and orbital mechanics.
-
-**Data Collection**
-- Retrieve planetary and stellar parameters from NASA Exoplanet Archive.
-
-**Software Setup**
-- Install required tools: `Rebound`, `AstroPy`, `NumPy`, `Matplotlib`.
-- Install machine learning libraries: `scikit-learn`, `XGBoost`, `TensorFlow` (optional).
+This project aims to leverage Machine Learning (ML), especially Deep Learning, to detect and analyze atmospheric components of exoplanets from transmission spectroscopy data. The goal is to create a publishable research piece aligned with ongoing academic efforts in top US universities.
 
 ---
 
-### Phase 2: Simulation Design and Setup (Week 2)
+## Project Roadmap
 
-**Design Simulations**
-- Define the simulation timeframe (e.g., 1 million years).
-- Select Kepler-90 g, h, and i as focus planets.
-- Specify initial conditions: mass, semi-major axis, eccentricity, inclination.
+### Month 1 – Background & Setup
 
-**Setup in Rebound**
-- Input planetary parameters into the simulation environment.
-- Choose an appropriate integrator (e.g., IAS15).
-- Run small test simulations to validate the setup.
+#### Step 1: Understand the Problem
+- Study spectroscopy techniques used to study exoplanet atmospheres.
+- Learn about molecular absorption features in infrared spectra (e.g., H₂O, CO₂, CH₄).
+- Understand transit spectroscopy (transmission spectra) and how it works.
 
----
+#### Step 2: Learn the Tools
+Learn Python libraries:
+- `numpy`, `matplotlib`, `pandas`
+- `scikit-learn`, `tensorflow` or `pytorch`
+- `astropy`, `lightkurve`, `petitRADTRANS`
 
-### Phase 3: Run Simulations (Weeks 3–4)
+Review ML concepts:
+- Supervised learning
+- Neural networks (especially CNNs)
+- Overfitting and model evaluation techniques
 
-**Simulate Orbital Evolution**
-- Run long-term N-body simulations.
-- Track positions, velocities, and gravitational interactions.
-
-**Data Collection**
-- Log orbital parameters: eccentricity, semi-major axis, period, and inclination.
-- Record data at fixed intervals (e.g., every 1,000 or 10,000 years).
-
-**Sensitivity Analysis**
-- Slightly vary initial conditions.
-- Observe the effects on orbital stability.
-
----
-
-### Phase 4: Machine Learning and Feature Engineering (Week 5)
-
-**Feature Engineering**
-- Structure the simulation output into a dataset.
-- Input features: initial conditions and statistical descriptors (mean eccentricity, variance, close encounter counts).
-- Output labels: “Stable” or “Unstable,” defined based on orbital criteria.
-
-**Model Training**
-- Train classification models:
-  - `RandomForestClassifier` for binary stability classification.
-  - `XGBoost` for higher accuracy.
-  - Optional: `LSTM` models for time-series prediction.
-- Evaluate models using accuracy, F1-score, and confusion matrix.
+#### Step 3: Research Alignment
+- Review recent papers from:
+  - University of Arizona
+  - University of California, Santa Cruz (OWL Lab)
+  - Arizona State University
+- Identify datasets, models, and spectral features used in current research.
 
 ---
 
-### Phase 5: Analysis and Interpretation (Week 6)
+### Month 2 – Data Collection & Preparation
 
-**Stability and Resonance Checks**
-- Plot orbital variations over time.
-- Detect orbital resonances using period ratios (e.g., 2:1, 3:2).
+#### Step 4: Gather Datasets
+- Generate simulated spectra using:
+  - `petitRADTRANS`
+  - `ExoGAN`
+- Collect real spectra from:
+  - NASA Exoplanet Archive
+  - MAST (Mikulski Archive)
+  - JWST Early Release Science datasets
 
-**Machine Learning Insights**
-- Analyze feature importance to understand predictors of stability.
-- Generate decision boundaries or 2D stability maps.
-
-**Chaos Detection (Optional)**
-- Identify chaotic behavior using ML models trained on sensitivity runs.
-
----
-
-### Phase 6: Report Writing and Visualization (Weeks 7–8)
-
-**Documentation**
-- Introduction: Overview of Kepler-90 and motivation for using ML.
-- Methodology: Detailed simulation and ML pipeline.
-- Results: Model performance, orbital patterns, stability classifications.
-- Discussion: Astrophysical implications and limitations.
-- Conclusion: Key findings and suggestions for future work.
-
-**Figures**
-- Orbit evolution plots
-- Eccentricity time-series
-- Feature importance charts
-- Confusion matrix from ML models
+#### Step 5: Preprocess Data
+- Clean and normalize spectral data.
+- Label each spectrum with known atmospheric components.
+- Split the dataset: 70% training, 15% validation, 15% test.
 
 ---
 
-### Phase 7: Final Submission (End of Week 8)
+### Month 3 – Model Development
 
-**Formatting and Publishing**
-- Prepare the manuscript using Overleaf or Google Docs.
-- Target submission to journals such as:
-  - The Astrophysical Journal (ApJ)
-  - Monthly Notices of the Royal Astronomical Society (MNRAS)
-  - Astronomy & Astrophysics (A&A)
+#### Step 6: Baseline Model
+- Build a basic ML model using:
+  - `RandomForestClassifier`
+  - Simple MLP (Multi-Layer Perceptron)
+- Start with synthetic data.
 
----
+#### Step 7: Deep Learning Model
+- Implement a 1D CNN:
+  - Input: normalized spectra (wavelength vs intensity)
+  - Output: probability of molecule presence (multi-label classification)
+- Use regularization techniques:
+  - Dropout layers
+  - Data augmentation (add noise)
 
-## Optional Advanced Ideas
-
-- Use AutoML tools like `TPOT` for model selection and tuning.
-- Apply LSTM networks to predict future orbital states from sequences.
-- Use dimensionality reduction techniques like PCA or t-SNE for visualization.
-
----
-
-## Prerequisites
-
-- Python 3.x
-- Basic understanding of orbital mechanics and planetary dynamics
-- Familiarity with Python libraries: `rebound`, `numpy`, `matplotlib`, `scikit-learn`, `xgboost`
-
----
-
-## References
-
-- NASA Exoplanet Archive: https://exoplanetarchive.ipac.caltech.edu/
-- Rein, H. & Liu, S.-F. (2012). *REBOUND: An open-source multi-purpose N-body code*
-- Scikit-learn Documentation
-- Kepler-90 system discovery and follow-up studies
+#### Step 8: Evaluate & Tune
+- Evaluate model using:
+  - Precision/Recall per molecule
+  - ROC-AUC scores
+  - Confusion matrix
+- Perform hyperparameter tuning:
+  - Learning rate, batch size, epochs, layer configuration
 
 ---
 
-## License
+### Month 4 – Real Data Testing + Explainability
 
-MIT License
+#### Step 9: Apply to Real Data
+- Test the model on real-world spectra (e.g., from Hubble or JWST).
+- Compare model output with published molecular detections.
+- Look for novel predictions or confirmations.
+
+#### Step 10: Model Explainability
+- Use `SHAP` or `LIME` to analyze:
+  - Which spectral features influence the predictions.
+- Visualize importance of wavelength regions per molecule.
 
 ---
 
-This project is ideal for research-based coursework, BSc/MSc theses, or hobbyist astrophysics data science exploration.
+### Month 5 – Documentation & Results
+
+#### Step 11: Analysis
+- Document performance metrics and results.
+- Highlight novel findings or insights from your model.
+- Identify any areas where the ML model improves over traditional methods.
+
+#### Step 12: Write Research Paper
+- Format the paper in IEEE or AAS style.
+- Suggested structure:
+  - Abstract
+  - Introduction
+  - Related Work
+  - Data
+  - Methodology
+  - Results
+  - Discussion
+  - Conclusion
+- Include visuals:
+  - Spectra examples
+  - Model diagrams
+  - Performance plots
+
+---
+
+### Month 6 – Publication & Outreach
+
+#### Step 13: Submit Paper
+Target Journals:
+- Astrophysical Journal (ApJ)
+- Machine Learning: Science and Technology
+- Research Notes of the AAS
+
+#### Step 14: Outreach to Professors
+- Share your GitHub repo and a 1-page summary with faculty from:
+  - University of Arizona
+  - UC Santa Cruz
+  - Arizona State University
+- Ask for feedback or potential collaboration.
+- Express interest in MSc programs and research assistantship opportunities.
+
+---
+
+## Technologies and Libraries
+
+| Area         | Tools |
+|--------------|-------|
+| ML           | TensorFlow, PyTorch, scikit-learn |
+| Astronomy    | Astropy, Lightkurve, petitRADTRANS |
+| Visualization| Matplotlib, Seaborn, SHAP, LIME |
+| Data Sources | NASA Exoplanet Archive, MAST, JWST ERS |
+| Documenting  | Overleaf (LaTeX), Jupyter Notebooks, GitHub |
+
+---
+
+## Contact
+
+For collaboration, mentorship, or MSc application-related queries, feel free to reach out via email or GitHub.
 
